@@ -3,5 +3,17 @@
 
   "name": "Quick GitHub Info",
   "description": "Quickly show GitHub info in Google Search",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "permissions": [
+    "debugger",
+    "tabs",
+    "*://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://www.google.com/*","https://www.google.com/*"],
+      "js": ["jquery.js", "content.js"],
+      "run_at": "document_end"
+    }
+  ]
 }
