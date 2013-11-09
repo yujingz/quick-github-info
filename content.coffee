@@ -1,7 +1,7 @@
 console.log 'Initializing Qucik GitHub Info'
 
-repos   = []
-baseUrl = "api.github.com/repos"
+repos        = []
+baseUrl      = "api.github.com/repos"
 
 class GitHubRepo
   constructor: ($dom) ->
@@ -11,16 +11,18 @@ class GitHubRepo
     @element.attr("href").replace /github.com/, baseUrl
 
   appendGitHubInfo: ->
-    $.get @repoUrl(), (data) =>
-      infoString = " . #{data.language}-Stars: #{data.stargazers_count}, Forks: #{data.forks_count}"
-      @element.append infoString
-      #console.log data.name
-      #console.log data.forks_count
-      #console.log data.stargazers_count
-      #console.log data.subscribers_count
-      #console.log data.language
+    $.ajax
+      type: "GET",
+      url: @repoUrl(),
+      beforeSend: (xhr) ->
+        xhr.setRequestHeader "Authorization", "Basic NzNiYWI3ZjkzMDNkMjNkNGFkNTM3M2ZiMmE3NzdlNTY4NTExNTFjNzp4LW9hdXRoLWJhc2lj"
+      success: (data) =>
+        infoString = " | #{data.language} - S: #{data.stargazers_count}, F: #{data.forks_count}"
+        @element.append infoString
 
 main = ->
+
+  repos = []
 
   $(".g").each ->
     $title = $(@).find("a:first")
@@ -31,6 +33,3 @@ main = ->
     result.appendGitHubInfo()
 
 main()
-
-document.addEventListener "DOMSubtreeModified", ->
-  console.log "ajax!"
