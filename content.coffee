@@ -1,25 +1,36 @@
 console.log 'Initializing Qucik GitHub Info'
 
-githubResults = []
-repos         = []
+repos   = []
+baseUrl = "api.github.com/repos"
 
-cleanUp = (input) ->
-  input = input.replace /<em>/, ""
-  input = input.replace /<\/em>/, ""
-  input.split(" ")[0]
+class GitHubRepo
+  constructor: ($dom) ->
+    @element = $dom
 
-class Repo
-  initialize: (repo)->
-    console.log repo
+  repoUrl: =>
+    @element.attr("href").replace /github.com/, baseUrl
 
-$(".g").each ->
-  title = $(@).find("a:first").html()
-  if title.indexOf("GitHub") >= 0
-    githubResults.push(cleanUp(title))
+  appendGitHubInfo: ->
+    $.get @repoUrl(), (data) =>
+      infoString = " . #{data.language}-Stars: #{data.stargazers_count}, Forks: #{data.forks_count}"
+      @element.append infoString
+      #console.log data.name
+      #console.log data.forks_count
+      #console.log data.stargazers_count
+      #console.log data.subscribers_count
+      #console.log data.language
 
-for result in githubResults
-  info = result.split("/")
-  repos.push
-    author: info[0]
-    repoName: info[1]
+main = ->
 
+  $(".g").each ->
+    $title = $(@).find("a:first")
+    if $title.html().indexOf("GitHub") >= 0
+      repos.push(new GitHubRepo($title))
+
+  for result in repos
+    result.appendGitHubInfo()
+
+main()
+
+document.addEventListener "DOMSubtreeModified", ->
+  console.log "ajax!"
