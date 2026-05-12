@@ -1,0 +1,12 @@
+{
+  "name": "quick-github-info",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "generate:icon": "node scripts/generate-icon.mjs",
+    "test": "node --test",
+    "prepare:chrome": "pnpm dlx @puppeteer/browsers install chrome@stable --path .cache/chrome-for-testing",
+    "verify:chrome": "node scripts/verify-extension.mjs",
+    "package": "pnpm generate:icon && mkdir -p dist && cd source && zip -r ../dist/quick-github-info-0.2.0.zip manifest.json background.js content.js icon.png"
+  }
+}

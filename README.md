@@ -3,9 +3,20 @@ Quick GitHub Info
 
 A Chrome extension to quickly show info of a GitHub repo in google's search result.
 
-It's still in development, so please use your Chrome address bar to perform a full page load search.
+This extension supports Manifest V3 and Google Search result updates after the initial page load.
 
-Future versions will support Ajax search conducted in Google's search field.
+## Development
+
+```bash
+pnpm generate:icon
+pnpm test
+pnpm prepare:chrome
+pnpm verify:chrome
+pnpm package
+```
+
+Load the `source/` directory in Chrome's extension manager for local testing.
+The Chrome Web Store package is generated at `dist/quick-github-info-0.2.0.zip`.
 
 [Install Link](https://chrome.google.com/webstore/detail/quick-github-info/mcofeafeflnpkheodkeoehbllblhaapf)
 
